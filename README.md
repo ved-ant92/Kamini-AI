@@ -1,10 +1,17 @@
+import os
 from flask import Flask, request, jsonify
 import google.generativeai as genai
 
 app = Flask(__name__)
 
-# Set your Gemini API key here
-genai.configure(api_key="AIzaSyAyDmL9sziyHxxDFp4Gn-Y7yrX7jFbLJ-s")
+# Get the Gemini API key from environment variables
+gemini_api_key = os.getenv('AIzaSyAyDmL9sziyHxxDFp4Gn-Y7yrX7jFbLJ-s')
+
+if gemini_api_key is None:
+    raise ValueError("Gemini API key is not set in environment variables.")
+
+# Configure Gemini with the API key
+genai.configure(api_key=gemini_api_key)
 
 # Create Gemini model
 model = genai.GenerativeModel("gemini-pro")
